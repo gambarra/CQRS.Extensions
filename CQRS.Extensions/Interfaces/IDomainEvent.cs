@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CQRS.Extensions.Interfaces
 {
-    public interface IEventHandler<in T> : INotificationHandler<T> where T : IEvent
+    public interface IDomainEvent: INotification
     {
     }
 }

@@ -1,11 +1,8 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CQRS.Extensions.Interfaces
+﻿namespace CQRS.Extensions.Interfaces
 {
-    public interface IEvent: INotification
+    public interface IEvent
     {
+        string EventName();
+    
     }
 }
