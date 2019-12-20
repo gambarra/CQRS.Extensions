@@ -2,7 +2,7 @@
 
 namespace CQRS.Extensions.Interfaces
 {
-    public interface ICommandHandler<TCommand> : IRequestHandler<TCommand,CommandResult> where TCommand : ICommand
+    public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, CommandResult> where TCommand : ICommand
     {
     }
 }
