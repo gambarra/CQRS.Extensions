@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CQRS.Extensions
+﻿namespace CQRS.Extensions
 {
     public class QueryResult
     {
