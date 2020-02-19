@@ -6,8 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="8.4.0" />
+    <PackageReference Include="FluentValidation" Version="8.6.1" />
     <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="WebApi.Models" Version="1.0.10" />
   </ItemGroup>
 
 </Project>

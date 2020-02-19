@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.Extensions", "CQRS.Extensions\CQRS.Extensions.csproj", "{D29C5234-6881-453E-B664-9DE2622B7C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS.Extensions.AspNetMVC", "CQRS.Extensions.AspNetMVC\CQRS.Extensions.AspNetMVC.csproj", "{87B71368-7493-4335-9FFE-5BC4B81356AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.Extensions.AspNetMVC", "CQRS.Extensions.AspNetMVC\CQRS.Extensions.AspNetMVC.csproj", "{87B71368-7493-4335-9FFE-5BC4B81356AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.ConsoleTests", "CQRS.ConsoleTests\CQRS.ConsoleTests.csproj", "{A1B897C5-1FF8-46F9-82CE-5C597E1CD8E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01E9D33B-D2F3-4F6C-9914-15A2EDD42A33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,10 @@ Global
 		{87B71368-7493-4335-9FFE-5BC4B81356AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87B71368-7493-4335-9FFE-5BC4B81356AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87B71368-7493-4335-9FFE-5BC4B81356AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B897C5-1FF8-46F9-82CE-5C597E1CD8E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B897C5-1FF8-46F9-82CE-5C597E1CD8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B897C5-1FF8-46F9-82CE-5C597E1CD8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B897C5-1FF8-46F9-82CE-5C597E1CD8E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

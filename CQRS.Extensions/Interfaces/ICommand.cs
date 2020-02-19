@@ -2,7 +2,12 @@
 
 namespace CQRS.Extensions.Interfaces
 {
-    public interface ICommand : IRequest<CommandResult>
+    public interface ICommand<TResponse> : IRequest<Result<TResponse>>
+        where TResponse : class
+    {
+    }
+
+    public interface ICommand : IRequest<Result<object>>
     {
     }
 }

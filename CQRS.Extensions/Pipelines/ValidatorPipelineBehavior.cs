@@ -5,33 +5,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
+using WebApi.Models.Response;
 
 namespace CQRS.Extensions.Pipelines
 {
-    public class ValidatorPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class ValidatorPipelineBehavior<TRequest, TResponse> 
+        : IPipelineBehavior<TRequest, TResponse>
     {
-        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        private readonly IEnumerable<IValidator<TRequest>> Validators;
 
-        public ValidatorPipelineBehavior(IEnumerable<IValidator<TRequest>> validators) {
-            _validators = validators;
+        public ValidatorPipelineBehavior(IEnumerable<IValidator<TRequest>> validators) 
+        {
+            this.Validators = validators;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
-            RequestHandlerDelegate<TResponse> next) {
-            var messages = _validators.Select(x => x.Validate(request))
+        public Task<TResponse> Handle(TRequest request, 
+            CancellationToken cancellationToken,
+            RequestHandlerDelegate<TResponse> next) 
+        {
+            var errors = this.Validators.Select(x => x.Validate(request))
                 .SelectMany(x => x.Errors)
                 .Where(x => x != null)
-                .Select(x => x.ErrorMessage)
-                .ToList();
+                .Select(x =>
+                {
+                    var property = x.PropertyName;
 
-            if (messages.Any() == false) return next();
+                    if (PropertyName.Resolver != null)
+                    {
+                        property = PropertyName.Resolver.Invoke(property);
+                    }
 
-            if (typeof(CommandResult).IsAssignableFrom(typeof(TResponse))) {
-                return Task.FromResult((TResponse)Convert.ChangeType(CommandResult.Fail(messages), typeof(TResponse)));
+                    return new ErrorItemResponse(x.ErrorMessage, property);
+                }).ToList();
+
+            if (errors.Any() == false)
+            {
+                return next();
             }
 
-            throw new Exception(string.Join(",", messages));
+            if (typeof(IResult).IsAssignableFrom(typeof(TResponse)))
+            {
+                var errorsResponse = new ErrorsResponse { Errors = errors };
+                var result = (TResponse) Activator.CreateInstance(typeof(TResponse), new object[] { errorsResponse, 400 });
+                return Task.FromResult(result);
+            }
+
+            throw new Exception(string.Join(",", errors.Select(r => r.Message)));
         }
     }
 }
