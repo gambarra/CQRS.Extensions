@@ -1,37 +1,76 @@
-## Welcome to GitHub Pages
+# CQRS Extensions
 
-You can use the [editor on GitHub](https://github.com/ddomingos-mundi/CQRS.Extensions/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+CQRS interfaces and extensions to simpify MediatR;
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Install via NuGet
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+PM> Install-Package CQRS.Extensions
+PM> Install-Package CQRS.Extensions.AspNetMVC
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## How to use
 
-### Jekyll Themes
+```
+var mediator = provider.GetService<IMediator>();
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ddomingos-mundi/CQRS.Extensions/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+var command = new CreateAccountCommand { Name = "success", CustomNumber = 2 };
+var result = mediator.Send(command).GetAwaiter().GetResult();
+```
 
-### Support or Contact
+Command/Query, Models, Handle
+```
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+public class CreateAccountCommand : ICommand<Account>
+{
+    public string Name { get; set; }
+
+    public int CustomNumber { get; set; }
+
+    public class CreateAccountCommandHandler : ICommandHandler<CreateAccountCommand, Account>
+    {
+        public CreateAccountCommandHandler() {}
+
+        public async Task<Result<Account>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        {
+            var account = new Account
+            {
+                Name = request.Name,
+                Number = request.CustomNumber
+            };
+
+            if (account.Name == "breaks")
+            {
+                return Result.Fail<Account>("error", 500);
+            }
+
+            return Result.Success(account);
+        }
+    }
+}
+
+public class CreateAccountValidator : AbstractValidator<CreateAccountCommand>
+{
+    public CreateAccountValidator()
+    {
+        RuleFor(p => p.Name)
+            .NotEmpty();
+
+        RuleFor(p => p.CustomNumber)
+            .NotEmpty();
+    }
+}
+
+public class Account
+{
+    public string Name { get; set; }
+
+    public int Number { get; set; }
+}
+```
+
+## How can I contribute?
+Please, refer to [CONTRIBUTING](.github/CONTRIBUTING.md)
+
+## Found something strange or need a new feature?
+Open a new Issue following our issue template [ISSUE TEMPLATE](.github/ISSUE_TEMPLATE.md)

@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.Extensions", "CQRS.Ext
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.Extensions.AspNetMVC", "CQRS.Extensions.AspNetMVC\CQRS.Extensions.AspNetMVC.csproj", "{87B71368-7493-4335-9FFE-5BC4B81356AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS.ConsoleTests", "CQRS.ConsoleTests\CQRS.ConsoleTests.csproj", "{A1B897C5-1FF8-46F9-82CE-5C597E1CD8E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS.ConsoleTests", "CQRS.ConsoleTests\CQRS.ConsoleTests.csproj", "{A1B897C5-1FF8-46F9-82CE-5C597E1CD8E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01E9D33B-D2F3-4F6C-9914-15A2EDD42A33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

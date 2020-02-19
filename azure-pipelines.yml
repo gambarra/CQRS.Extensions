@@ -1,0 +1,46 @@
+name: 3.1$(rev:.r)
+
+stages:
+- stage: BuildApp
+  jobs:
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  - job: BuildPackAndPublish
+    steps:
+    - script: |
+        pwd && ls -la
+        cd $(project_path)
+        dotnet restore 
+        dotnet build
+      displayName: Build Application
+    steps:
+    - task: DownloadPipelineArtifact@2
+    - task: DotNetCoreCLI@2
+      displayName: 'Packing Release CQRS.Extensions'
+      inputs:
+        command: pack
+        packagesToPack: '**/CQRS.Extensions.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: $(Build.BuildNumber)
+    - task: DotNetCoreCLI@2
+      displayName: 'Packing Release CQRS.Extensions.AspNetMVC'
+      inputs:
+        command: pack
+        packagesToPack: '**/CQRS.Extensions.AspNetMVC.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: $(Build.BuildNumber)
+    - task: PublishPipelineArtifact@1
+      displayName: Store Nuget Packages
+      inputs:
+        path: '$(Build.ArtifactStagingDirectory)'
+        artifact: NugetPackages
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet push CQRS.Extensions'
+      inputs:
+        command: push
+        packagesToPush: '**/CQRS.Extensions.$(Build.BuildNumber).nupkg'
+        - task: DotNetCoreCLI@2
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet push CQRS.Extensions.AspNetMVC'
+      inputs:
+        command: push
+        packagesToPush: '**/CQRS.Extensions.AspNetMVC.$(Build.BuildNumber).nupkg'
